@@ -3,6 +3,9 @@
 
 #include <minifs/minifs.h>
 
+#define BACKEND_SUCCESS (0)
+#define BACKEND_FAILURE (-1)
+
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus

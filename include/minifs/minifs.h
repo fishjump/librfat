@@ -4,14 +4,14 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define MINIFS_MAGIC 0xb9
-#define MINIFS_SUCCESS 0
-#define MINIFS_FAILURE -1
-#define MINIFS_FS_OPEN_FAILURE -2
-#define MINIFS_FS_CLOSE_FAILURE -3
-#define MINIFS_FS_READ_FAILURE -4
-#define MINIFS_FS_WRITE_FAILURE -5
-#define MINIFS_FS_MAGIC_NUMBER_FAILURE -6
+#define MINIFS_MAGIC (0xb9)
+#define MINIFS_SUCCESS (0)
+#define MINIFS_FAILURE (-1)
+#define MINIFS_FS_OPEN_FAILURE (-2)
+#define MINIFS_FS_CLOSE_FAILURE (-3)
+#define MINIFS_FS_READ_FAILURE (-4)
+#define MINIFS_FS_WRITE_FAILURE (-5)
+#define MINIFS_FS_MAGIC_NUMBER_FAILURE (-6)
 
 #ifdef __cplusplus
 extern "C" {

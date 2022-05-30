@@ -19,7 +19,7 @@ int fs_area_open(const void *id, struct fs_area **fap) {
 
   f = fopen((const char *)id, "rb+");
   if (!f) {
-    ret = -1;
+    ret = BACKEND_FAILURE;
     goto fs_area_open_end;
   }
 
@@ -28,7 +28,7 @@ int fs_area_open(const void *id, struct fs_area **fap) {
   *fap =
       (struct fs_area *)malloc(sizeof(struct fs_area) + sz * sizeof(uint8_t));
   if (!(*fap)) {
-    ret = -2;
+    ret = BACKEND_FAILURE;
     goto fs_area_open_end;
   }
 
@@ -36,11 +36,11 @@ int fs_area_open(const void *id, struct fs_area **fap) {
   (*fap)->sz = sz;
   ret = fread((*fap)->buffer, sizeof(uint8_t), sz, f);
   if (ret != sz) {
-    ret = -3;
+    ret = BACKEND_FAILURE;
     goto fs_area_open_end;
   }
 
-  ret = 0;
+  ret = BACKEND_SUCCESS;
 
 fs_area_open_end:
   return ret;
@@ -50,11 +50,11 @@ int fs_area_close(const struct fs_area *fap) {
   int ret;
   ret = fclose(fap->f);
   if (ret == EOF) {
-    ret = -1;
+    ret = BACKEND_FAILURE;
     goto fs_area_close_end;
   }
 
-  ret = 0;
+  ret = BACKEND_SUCCESS;
 
 fs_area_close_end:
   free((void *)fap);
@@ -67,7 +67,7 @@ int fs_area_read(const struct fs_area *fap, size_t offset, void *dst,
 
   memcpy(dst, (void *)((uintptr_t)fap->buffer + offset), len);
 
-  ret = 0;
+  ret = BACKEND_SUCCESS;
 
   return ret;
 }
@@ -78,7 +78,7 @@ int fs_area_write(const struct fs_area *fap, size_t offset, const void *src,
 
   memcpy((void *)((uintptr_t)fap->buffer + offset), src, len);
 
-  ret = 0;
+  ret = BACKEND_SUCCESS;
 
   return ret;
 }
@@ -87,13 +87,13 @@ int fs_area_get_size(const struct fs_area *fap, size_t *sz) {
   int ret;
 
   if (fap == NULL) {
-    ret = -1;
+    ret = BACKEND_FAILURE;
     goto fs_area_get_size_end;
   }
 
   *sz = fap->sz;
 
-  ret = 0;
+  ret = BACKEND_SUCCESS;
 
 fs_area_get_size_end:
   return ret;
