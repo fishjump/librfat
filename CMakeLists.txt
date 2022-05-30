@@ -14,8 +14,8 @@ add_library(minifs STATIC)
 # | Zephyr             |
 # +--------------------+
 
-target_compile_definitions(minifs PRIVATE POSIX_BACKEND)
-# target_compile_definitions(minifs PRIVATE ZEPHYR_BACKEND)
+add_compile_definitions(minifs PRIVATE POSIX_BACKEND)
+# add_compile_definitions(minifs PRIVATE ZEPHYR_BACKEND)
 
 target_include_directories(minifs
     PUBLIC
@@ -31,3 +31,34 @@ target_sources(minifs
         src/backend/zephyr.c
         src/backend/posix.c
 )
+
+find_package(GTest)
+if(GTEST_FOUND)
+  enable_testing()
+
+  add_executable(minifs_tests)
+
+  target_include_directories(minifs_tests
+    PUBLIC
+        ${GTEST_INCLUDE_DIRS}
+    PRIVATE
+        test
+  )
+
+  target_sources(minifs_tests
+    PRIVATE
+        test/minifs_tests.cpp
+  )
+
+  target_link_libraries(minifs_tests
+    PUBLIC
+        minifs
+        ${GTEST_BOTH_LIBRARIES}
+  )
+
+  add_test(
+    NAME minifs_tests
+    COMMAND minifs_tests
+  )
+
+endif()
