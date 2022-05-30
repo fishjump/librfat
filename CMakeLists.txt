@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 project(minifs)
 
+# Generate the compile_commands.json for ide autocompletion.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_library(minifs STATIC)
@@ -60,5 +61,4 @@ if(GTEST_FOUND)
     NAME minifs_tests
     COMMAND minifs_tests
   )
-
 endif()
