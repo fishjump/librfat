@@ -12,7 +12,7 @@ struct fs_area {
   uint8_t buffer[0];
 };
 
-int fs_area_open(const uint64_t id, struct fs_area **fap) {
+int fs_area_open(const void *id, struct fs_area **fap) {
   FILE *f;
   int ret;
   size_t sz;
@@ -80,6 +80,22 @@ int fs_area_write(const struct fs_area *fap, size_t offset, const void *src,
 
   ret = 0;
 
+  return ret;
+}
+
+int fs_area_get_size(const struct fs_area *fap, size_t *sz) {
+  int ret;
+
+  if (fap == NULL) {
+    ret = -1;
+    goto fs_area_get_size_end;
+  }
+
+  *sz = fap->sz;
+
+  ret = 0;
+
+fs_area_get_size_end:
   return ret;
 }
 
