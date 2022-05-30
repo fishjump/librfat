@@ -1,0 +1,3 @@
+[submodule "modules/zephyr"]
+	path = modules/zephyr
+	url = https://github.com/zephyrproject-rtos/zephyr.git
