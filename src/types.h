@@ -1,5 +1,5 @@
-#ifndef _LIB_MINIFS_TYPEDEFS_H_
-#define _LIB_MINIFS_TYPEDEFS_H_
+#ifndef _LIBRFAT_TYPES_H_
+#define _LIBRFAT_TYPES_H_
 
 #include <stdint.h>
 
@@ -20,17 +20,17 @@ extern "C" {
  * |   Image storage  |        | ... | Block 1 | Block 0 |          |
  * +------------------+--------+-----+---------+---------+----------+
  */
-typedef struct __attribute__((__packed__)) minifs_metadata {
+typedef struct __attribute__((__packed__)) rfat_metadata {
   uint8_t magic;
   size_t fs_sz;
   size_t partition0_sz;
   size_t partition1_sz;
   size_t partition0_start;
   size_t partition1_start;
-} minifs_metadata_t;
+} rfat_metadata_t;
 
 /**
- * @brief The main block of minifs partition 1. The main block size must be
+ * @brief The main block of rfat partition 1. The main block size must be
  * fixed and must be located at block 0, because we want find it as easy as
  * possible. The size is 128 bits in total.
  */
@@ -59,4 +59,4 @@ typedef struct __attribute__((__packed__)) block {
 }
 #endif // __cplusplus
 
-#endif // _LIB_MINIFS_TYPEDEFS_H_
+#endif // _LIBRFAT_TYPES_H_

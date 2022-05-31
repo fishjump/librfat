@@ -1,17 +1,17 @@
-#ifndef _LIB_MINIFS_H_
-#define _LIB_MINIFS_H_
+#ifndef _LIBRFAT_RFAT_H_
+#define _LIBRFAT_RFAT_H_
 
 #include <stddef.h>
 #include <stdint.h>
 
-#define MINIFS_MAGIC (0xb9)
-#define MINIFS_SUCCESS (0)
-#define MINIFS_FAILURE (-1)
-#define MINIFS_FS_OPEN_FAILURE (-2)
-#define MINIFS_FS_CLOSE_FAILURE (-3)
-#define MINIFS_FS_READ_FAILURE (-4)
-#define MINIFS_FS_WRITE_FAILURE (-5)
-#define MINIFS_FS_MAGIC_NUMBER_FAILURE (-6)
+#define RFAT_MAGIC (0xb9)
+#define RFAT_SUCCESS (0)
+#define RFAT_FAILURE (-1)
+#define RFAT_FS_OPEN_FAILURE (-2)
+#define RFAT_FS_CLOSE_FAILURE (-3)
+#define RFAT_FS_READ_FAILURE (-4)
+#define RFAT_FS_WRITE_FAILURE (-5)
+#define RFAT_FS_MAGIC_NUMBER_FAILURE (-6)
 
 #ifdef __cplusplus
 extern "C" {
@@ -19,13 +19,13 @@ extern "C" {
 
 /**
  * @brief fs_area is a implementation defined struct. Developers can get it by
- * using minifs_fs_open(), and remember to release it by using
- * minifs_fs_close().
+ * using rfat_fs_open(), and remember to release it by using
+ * rfat_fs_close().
  */
 struct fs_area;
 
 /**
- * @brief Open a minifs file system.
+ * @brief Open a rfat file system.
  *
  * @param id[in] Pointer to the id of a file system. The type is
  * implementation defined. For example, in posix backend, it is a file
@@ -33,15 +33,15 @@ struct fs_area;
  * @param fapp[out] Pointer to a fs_area pointer.
  * @return int return 0 if success, otherwise return negative error code.
  */
-int minifs_fs_open(const void *id, struct fs_area **fapp);
+int rfat_fs_open(const void *id, struct fs_area **fapp);
 
 /**
- * @brief Close a minifs file system.
+ * @brief Close a rfat file system.
  *
  * @param fap[in] Pointer to a fs_area variable.
  * @return int return 0 if success, otherwise return negative error code.
  */
-int minifs_fs_close(const struct fs_area *fap);
+int rfat_fs_close(const struct fs_area *fap);
 
 /**
  * @brief Validate whether a opened fs_area pointer refers to a valid file
@@ -50,7 +50,7 @@ int minifs_fs_close(const struct fs_area *fap);
  * @param fap[in] Pointer to a fs_area variable.
  * @return int return 0 if success, otherwise return negative error code.
  */
-int minifs_fs_validate(const struct fs_area *fap);
+int rfat_fs_validate(const struct fs_area *fap);
 
 /**
  * @brief Initialize a file system. If the file system is already initialized,
@@ -59,21 +59,21 @@ int minifs_fs_validate(const struct fs_area *fap);
  * @param fap[in] Pointer to a fs_area variable.
  * @return int return 0 if success, otherwise return negative error code.
  */
-int minifs_fs_init(const struct fs_area *fap);
+int rfat_fs_init(const struct fs_area *fap);
 
-int minifs_open(const struct fs_area *fap, const char *pathname, int flags);
+int rfat_open(const struct fs_area *fap, const char *pathname, int flags);
 
-int minifs_creat(const struct fs_area *fap, const char *pathname, uint8_t mode);
+int rfat_creat(const struct fs_area *fap, const char *pathname, uint8_t mode);
 
-int minifs_close(const struct fs_area *fap, int fd);
+int rfat_close(const struct fs_area *fap, int fd);
 
-int minifs_read(const struct fs_area *fap, int fd, void *buf, size_t count);
+int rfat_read(const struct fs_area *fap, int fd, void *buf, size_t count);
 
-int minifs_write(const struct fs_area *fap, int fd, const void *buf,
+int rfat_write(const struct fs_area *fap, int fd, const void *buf,
                  size_t count);
 
 #ifdef __cplusplus
 }
 #endif // __cplusplus
 
-#endif // _LIB_MINIFS_H_
+#endif // _LIBRFAT_RFAT_H_

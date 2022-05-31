@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(minifs)
+project(rfat)
 
 # Generate the compile_commands.json for ide autocompletion.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_library(minifs STATIC)
+add_library(rfat STATIC)
 
 # +--------------------+
 # | Choose One Backend |
@@ -15,10 +15,10 @@ add_library(minifs STATIC)
 # | Zephyr             |
 # +--------------------+
 
-add_compile_definitions(minifs PRIVATE POSIX_BACKEND)
-# add_compile_definitions(minifs PRIVATE ZEPHYR_BACKEND)
+add_compile_definitions(rfat PRIVATE POSIX_BACKEND)
+# add_compile_definitions(rfat PRIVATE ZEPHYR_BACKEND)
 
-target_include_directories(minifs
+target_include_directories(rfat
     PUBLIC
         modules/zephyr/include
         include
@@ -26,9 +26,9 @@ target_include_directories(minifs
         src
 )
 
-target_sources(minifs
+target_sources(rfat
     PRIVATE
-        src/minifs.c
+        src/rfat.c
         src/backend/zephyr.c
         src/backend/posix.c
 )
@@ -37,28 +37,28 @@ find_package(GTest)
 if(GTEST_FOUND)
   enable_testing()
 
-  add_executable(minifs_tests)
+  add_executable(rfat_tests)
 
-  target_include_directories(minifs_tests
+  target_include_directories(rfat_tests
     PUBLIC
         ${GTEST_INCLUDE_DIRS}
     PRIVATE
         test
   )
 
-  target_sources(minifs_tests
+  target_sources(rfat_tests
     PRIVATE
-        test/minifs_tests.cpp
+        test/rfat_tests.cpp
   )
 
-  target_link_libraries(minifs_tests
+  target_link_libraries(rfat_tests
     PUBLIC
-        minifs
+        rfat
         ${GTEST_BOTH_LIBRARIES}
   )
 
   add_test(
-    NAME minifs_tests
-    COMMAND minifs_tests
+    NAME rfat_tests
+    COMMAND rfat_tests
   )
 endif()

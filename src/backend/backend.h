@@ -1,7 +1,7 @@
-#ifndef _LIB_MINIFS_BACKEND_H_
-#define _LIB_MINIFS_BACKEND_H_
+#ifndef _LIBRFAT_BACKEND_BACKEND_H_
+#define _LIBRFAT_BACKEND_BACKEND_H_
 
-#include <minifs/minifs.h>
+#include <rfat/rfat.h>
 
 #define BACKEND_SUCCESS (0)
 #define BACKEND_FAILURE (-1)
@@ -28,4 +28,4 @@ int fs_area_get_size(const struct fs_area *fap, size_t *sz);
 }
 #endif // __cplusplus
 
-#endif // _LIB_MINIFS_BACKEND_H_
+#endif // _LIBRFAT_BACKEND_BACKEND_H_

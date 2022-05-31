@@ -1,1 +1,2 @@
-# libmini_fs
+# librfat (reversed fat file system)
+
