@@ -1,7 +1,6 @@
 #include <rfat/rfat.h>
 
 #include "backend/backend.h"
-#include "types.h"
 
 int rfat_fs_open(const void *id, struct fs_area **fapp) {
   int ret;
@@ -32,7 +31,7 @@ rfat_fs_close_end:
 }
 
 int rfat_fs_validate(const struct fs_area *fap) {
-  rfat_metadata_t metadata;
+  rfat_metadata_block_t metadata;
   int ret, sz;
 
   ret = fs_area_get_size(fap, &sz);
@@ -59,7 +58,7 @@ rfat_fs_validate_end:
 }
 
 int rfat_fs_init(const struct fs_area *fap) {
-  rfat_metadata_t metadata;
+  rfat_metadata_block_t metadata;
   int ret, sz;
 
   ret = fs_area_get_size(fap, &sz);

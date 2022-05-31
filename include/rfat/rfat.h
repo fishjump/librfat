@@ -4,7 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define RFAT_MAGIC (0xb9)
+#include "types.h"
+
 #define RFAT_SUCCESS (0)
 #define RFAT_FAILURE (-1)
 #define RFAT_FS_OPEN_FAILURE (-2)
@@ -16,13 +17,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
-
-/**
- * @brief fs_area is a implementation defined struct. Developers can get it by
- * using rfat_fs_open(), and remember to release it by using
- * rfat_fs_close().
- */
-struct fs_area;
 
 /**
  * @brief Open a rfat file system.
@@ -70,7 +64,7 @@ int rfat_close(const struct fs_area *fap, int fd);
 int rfat_read(const struct fs_area *fap, int fd, void *buf, size_t count);
 
 int rfat_write(const struct fs_area *fap, int fd, const void *buf,
-                 size_t count);
+               size_t count);
 
 #ifdef __cplusplus
 }
