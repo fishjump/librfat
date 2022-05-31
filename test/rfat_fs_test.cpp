@@ -4,6 +4,11 @@
 #define RFAT_BIN_FILE_PATH "rfat_fs_test.bin"
 #define RFAT_BIN_FILE_SZ (1024)
 
+/**
+ * @brief This test suite is used to test rfat file system. In Setup(), we'll
+ * create a new binary file with size=RFA_BIN_FILE_SZ, and it will be deleted in
+ * TearsDown().
+ */
 class rfat_fs : public ::testing::Test {
 protected:
   void SetUp() override {
@@ -31,6 +36,13 @@ protected:
   }
 };
 
+/**
+ * @brief This case is used to test rfat_fs_open() and rfat_fs_close().
+ * 1. call rfat_fs_open() to open the filesystem and it should return
+ * RFAT_SUCCESS.
+ * 2. call rfat_fs_close() to close the filesystem and it should return
+ * RFAT_SUCCESS.
+ */
 TEST_F(rfat_fs, open_and_close) {
   int ret;
   struct fs_area *fap;
@@ -44,6 +56,17 @@ TEST_F(rfat_fs, open_and_close) {
   ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_fs_close failed, error code: " << ret;
 }
 
+/**
+ * @brief This case is used to test rfat_fs_init() and rfat_fs_validate().
+ * 1. call rfat_fs_open() to open the filesystem and it should return
+ * RFAT_SUCCESS.
+ * 2. call rfat_fs_validate() to validate the filesystem and it should return
+ * RFAT_FS_MAGIC_NUMBER_FAILURE because the filesystem is not initialized now.
+ * 3. call rfat_fs_init() to initialize the filesystem and it should return
+ * RFAT_SUCCESS.
+ * 4. call rfat_fs_validate() to validate the filesystem and it should return
+ * RFAT_SUCCESS.
+ */
 TEST_F(rfat_fs, init_and_validate) {
   int ret, i;
   struct fs_area *fap;

@@ -25,7 +25,7 @@ extern "C" {
  * implementation defined. For example, in posix backend, it is a file
  * path(const char *), and in zephyr backend, it is a interger.
  * @param fapp[out] Pointer to a fs_area pointer.
- * @return int return 0 if success, otherwise return negative error code.
+ * @return [int] return 0 if success, otherwise return negative error code.
  */
 int rfat_fs_open(const void *id, struct fs_area **fapp);
 
@@ -33,7 +33,7 @@ int rfat_fs_open(const void *id, struct fs_area **fapp);
  * @brief Close a rfat file system.
  *
  * @param fap[in] Pointer to a fs_area variable.
- * @return int return 0 if success, otherwise return negative error code.
+ * @return [int] return 0 if success, otherwise return negative error code.
  */
 int rfat_fs_close(const struct fs_area *fap);
 
@@ -42,7 +42,7 @@ int rfat_fs_close(const struct fs_area *fap);
  * system or not. The file system must start with a specific magic number.
  *
  * @param fap[in] Pointer to a fs_area variable.
- * @return int return 0 if success, otherwise return negative error code.
+ * @return [int] return 0 if success, otherwise return negative error code.
  */
 int rfat_fs_validate(const struct fs_area *fap);
 
@@ -51,7 +51,7 @@ int rfat_fs_validate(const struct fs_area *fap);
  * this function will do nothing.
  *
  * @param fap[in] Pointer to a fs_area variable.
- * @return int return 0 if success, otherwise return negative error code.
+ * @return [int] return 0 if success, otherwise return negative error code.
  */
 int rfat_fs_init(const struct fs_area *fap);
 
