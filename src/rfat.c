@@ -27,12 +27,13 @@ int rfat_fs_close(const struct fs_area *fap) {
   }
 
 rfat_fs_close_end:
-  return fs_area_close(fap);
+  return ret;
 }
 
 int rfat_fs_validate(const struct fs_area *fap) {
   rfat_metadata_block_t metadata;
-  int ret, sz;
+  int ret;
+  size_t sz;
 
   ret = fs_area_get_size(fap, &sz);
   if (ret != RFAT_SUCCESS) {
@@ -41,6 +42,7 @@ int rfat_fs_validate(const struct fs_area *fap) {
   }
 
   ret = fs_area_read(fap, sz - sizeof(metadata), &metadata, sizeof(metadata));
+
   if (ret != RFAT_SUCCESS) {
     ret = RFAT_FS_READ_FAILURE;
     goto rfat_fs_validate_end;
@@ -59,7 +61,8 @@ rfat_fs_validate_end:
 
 int rfat_fs_init(const struct fs_area *fap) {
   rfat_metadata_block_t metadata;
-  int ret, sz;
+  int ret;
+  size_t sz;
 
   ret = fs_area_get_size(fap, &sz);
   if (ret != RFAT_SUCCESS) {
@@ -79,6 +82,10 @@ int rfat_fs_init(const struct fs_area *fap) {
   }
 
   metadata.magic = RFAT_MAGIC;
+  metadata.block_cnt = sz / RFAT_BLOCK_SZ;
+  metadata.fat_entry_idx = 1;
+  metadata.fet_entry_idx = 2;
+
   ret = fs_area_write(fap, sz - sizeof(metadata), &metadata, sizeof(metadata));
   if (ret != RFAT_SUCCESS) {
     ret = RFAT_FS_WRITE_FAILURE;

@@ -25,6 +25,8 @@ int fs_area_open(const void *id, struct fs_area **fap) {
 
   fseek(f, 0, SEEK_END);
   sz = ftell(f);
+  fseek(f, 0, SEEK_SET);
+
   *fap =
       (struct fs_area *)malloc(sizeof(struct fs_area) + sz * sizeof(uint8_t));
   if (!(*fap)) {
@@ -48,6 +50,7 @@ fs_area_open_end:
 
 int fs_area_close(const struct fs_area *fap) {
   int ret;
+
   ret = fclose(fap->f);
   if (ret == EOF) {
     ret = BACKEND_FAILURE;

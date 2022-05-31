@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <rfat/rfat.h>
 
-TEST(test_rfat, type_size_check) {
+TEST(type_size, type_size_le_test) {
   // The following list of types must be less than or equal to RFAT_BLOCK_SZ.
   // 1.rfat_file_alloc_t
   // 2.rfat_file_entry_t
@@ -9,6 +9,7 @@ TEST(test_rfat, type_size_check) {
   // 4.rfat_fat_block_t
   // 5.rfat_fet_block_t
   // 6.rfat_data_block_t
+
   EXPECT_LE(sizeof(rfat_file_alloc_t), RFAT_BLOCK_SZ)
       << "rfat_file_alloc_t is too large";
 

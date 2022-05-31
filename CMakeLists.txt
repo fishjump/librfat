@@ -35,6 +35,8 @@ target_sources(rfat
 
 find_package(GTest)
 if(GTEST_FOUND)
+  list(APPEND CMAKE_CTEST_ARGUMENTS "--output-on-failure")
+  
   enable_testing()
 
   add_executable(rfat_tests)
@@ -48,7 +50,8 @@ if(GTEST_FOUND)
 
   target_sources(rfat_tests
     PRIVATE
-        test/rfat_tests.cpp
+        test/rfat_fs_test.cpp
+        test/type_size_test.cpp
   )
 
   target_link_libraries(rfat_tests
