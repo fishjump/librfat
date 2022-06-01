@@ -5,6 +5,8 @@ add_compile_definitions(${PROJECT_TEST_NAME} PRIVATE TEST_CLEANUP)
 
 add_executable(${PROJECT_TEST_NAME})
 
+find_package(Threads REQUIRED)
+
 target_include_directories(${PROJECT_TEST_NAME}
     PUBLIC
         ${GTEST_INCLUDE_DIRS}
@@ -21,6 +23,7 @@ target_sources(${PROJECT_TEST_NAME}
 target_link_libraries(${PROJECT_TEST_NAME}
     PUBLIC
         ${GTEST_BOTH_LIBRARIES}
+        ${CMAKE_THREAD_LIBS_INIT}
         ${CMAKE_PROJECT_NAME}
 )
 
