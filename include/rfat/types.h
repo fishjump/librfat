@@ -3,10 +3,15 @@
 
 #include <stdint.h>
 
-#define RFAT_MAGIC (0x72464154u) /* rFat */
+#define RFAT_MAGIC (0x54414672u) /* "rFat" */
 #define RFAT_BLOCK_SZ (32)       /* bytes */
-#define RFAT_UNUSED (0)
-#define RFAT_EOF (-1)
+#define RFAT_FAT_BLOCK_SZ (RFAT_BLOCK_SZ / sizeof(rfat_file_alloc_t))
+#define RFAT_FET_BLOCK_SZ (RFAT_BLOCK_SZ / sizeof(rfat_file_entry_t))
+#define RFAT_DATA_BLOCK_SZ (RFAT_BLOCK_SZ / sizeof(uint8_t))
+
+#define RFAT_FAT_UNUSED (0)
+#define RFAT_FAT_EOF (-1)
+#define RFAT_FAT_RESERVED (-2)
 
 #ifdef __cplusplus
 extern "C" {
@@ -41,16 +46,25 @@ typedef struct rfat_metadata_block {
 } __attribute__((__packed__)) rfat_metadata_block_t;
 
 typedef struct rfat_fat_block {
-  rfat_file_alloc_t data[RFAT_BLOCK_SZ / sizeof(rfat_file_alloc_t)];
+  rfat_file_alloc_t data[RFAT_FAT_BLOCK_SZ];
 } __attribute__((__packed__)) rfat_fat_block_t;
 
 typedef struct rfat_fet_block {
-  rfat_file_entry_t data[RFAT_BLOCK_SZ / sizeof(rfat_file_entry_t)];
+  rfat_file_entry_t data[RFAT_FET_BLOCK_SZ];
 } __attribute__((__packed__)) rfat_fet_block_t;
 
 typedef struct rfat_data_block {
-  uint8_t data[RFAT_BLOCK_SZ / sizeof(uint8_t)];
+  uint8_t data[RFAT_DATA_BLOCK_SZ];
 } __attribute__((__packed__)) rfat_data_block_t;
+
+typedef struct rfat_any_block {
+  union {
+    rfat_metadata_block_t metadata;
+    rfat_fat_block_t fat;
+    rfat_fet_block_t fet;
+    rfat_data_block_t data;
+  };
+} __attribute__((__packed__)) rfat_any_block_t;
 
 /**
  * @brief fs_area is a implementation defined struct. Developers can get it by

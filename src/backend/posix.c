@@ -51,6 +51,12 @@ fs_area_open_end:
 int fs_area_close(const struct fs_area *fap) {
   int ret;
 
+  ret = fwrite(fap->buffer, sizeof(uint8_t), fap->sz, fap->f);
+  if (ret != fap->sz) {
+    ret = BACKEND_FAILURE;
+    goto fs_area_close_end;
+  }
+
   ret = fclose(fap->f);
   if (ret == EOF) {
     ret = BACKEND_FAILURE;

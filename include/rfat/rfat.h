@@ -57,7 +57,7 @@ int rfat_fs_init(const struct fs_area *fap);
 
 int rfat_open(const struct fs_area *fap, const char *pathname, int flags);
 
-int rfat_creat(const struct fs_area *fap, const char *pathname, uint8_t mode);
+int rfat_create(const struct fs_area *fap, const char *pathname, uint8_t mode);
 
 int rfat_close(const struct fs_area *fap, int fd);
 

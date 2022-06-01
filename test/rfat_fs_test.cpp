@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include <rfat/rfat.h>
 
+#include "helper.hpp"
+
 #define RFAT_BIN_FILE_PATH "rfat_fs_test.bin"
 #define RFAT_BIN_FILE_SZ (1024)
 
@@ -28,12 +30,16 @@ protected:
   }
 
   void TearDown() override {
+#ifdef TEST_CLEANUP
     int ret;
 
     ret = remove(RFAT_BIN_FILE_PATH);
 
     ASSERT_EQ(ret, 0) << "remove " << RFAT_BIN_FILE_PATH << " failed";
+#endif // TEST_CLEANUP
   }
+
+  int test;
 };
 
 /**
@@ -48,12 +54,12 @@ TEST_F(rfat_fs, open_and_close) {
   struct fs_area *fap;
 
   ret = rfat_fs_open(RFAT_BIN_FILE_PATH, &fap);
-
   ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_fs_open failed, error code: " << ret;
 
-  ret = rfat_fs_close(fap);
-
-  ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_fs_close failed, error code: " << ret;
+  defer({
+    ret = rfat_fs_close(fap);
+    ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_fs_close failed, error code: " << ret;
+  });
 }
 
 /**
@@ -72,8 +78,12 @@ TEST_F(rfat_fs, init_and_validate) {
   struct fs_area *fap;
 
   ret = rfat_fs_open(RFAT_BIN_FILE_PATH, &fap);
-
   ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_fs_open failed, error code: " << ret;
+
+  defer({
+    ret = rfat_fs_close(fap);
+    ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_fs_close failed, error code: " << ret;
+  });
 
   ret = rfat_fs_validate(fap);
 
@@ -89,3 +99,5 @@ TEST_F(rfat_fs, init_and_validate) {
   ASSERT_EQ(ret, RFAT_SUCCESS)
       << "rfat_fs_validate failed, error code: " << ret;
 }
+
+// TEST_F(rfat_fs, create_and_read) {}
