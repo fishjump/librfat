@@ -13,6 +13,7 @@ add_subdirectory(src)
 
 find_package(GTest)
 if(GTEST_FOUND)
+  list(APPEND CMAKE_CTEST_ARGUMENTS "--output-on-failure")
   enable_testing()
   add_subdirectory(test)
 else()

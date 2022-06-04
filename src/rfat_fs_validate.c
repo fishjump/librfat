@@ -4,7 +4,7 @@
 #include "helper.h"
 
 int rfat_fs_validate(const struct fs_area *fap) {
-  rfat_metadata_block_t metadata;
+  rfat_metadata_header_t hdr;
   int ret;
   size_t sz;
 
@@ -14,17 +14,12 @@ int rfat_fs_validate(const struct fs_area *fap) {
     goto end;
   }
 
-  ret = fs_area_read(fap, BLOCK(sz, 0), &metadata, sizeof(metadata));
-
-  if (ret != RFAT_SUCCESS) {
-    ret = RFAT_FS_READ_FAILURE;
-    goto end;
-  }
-
-  if (metadata.magic != RFAT_MAGIC) {
-    ret = RFAT_FS_MAGIC_NUMBER_FAILURE;
-    goto end;
-  }
+  WITH_METADATA_HEADER(ret, fap, sz, &hdr, end, false, {
+    if (hdr.magic != RFAT_MAGIC) {
+      ret = RFAT_FS_MAGIC_NUMBER_FAILURE;
+      goto end;
+    }
+  });
 
   ret = RFAT_SUCCESS;
 

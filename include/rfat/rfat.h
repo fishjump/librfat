@@ -1,9 +1,6 @@
 #ifndef _LIBRFAT_RFAT_H_
 #define _LIBRFAT_RFAT_H_
 
-#include <stddef.h>
-#include <stdint.h>
-
 #include "types.h"
 
 #define RFAT_SUCCESS (0)
@@ -13,6 +10,8 @@
 #define RFAT_FS_READ_FAILURE (-4)
 #define RFAT_FS_WRITE_FAILURE (-5)
 #define RFAT_FS_MAGIC_NUMBER_FAILURE (-6)
+#define RFAT_STORAGE_NOT_FOUND_FAILURE (-7)
+#define RFAT_FILE_DOES_NOT_EXIST_FAILURE (-8)
 
 #ifdef __cplusplus
 extern "C" {
@@ -55,11 +54,27 @@ int rfat_fs_validate(const struct fs_area *fap);
  */
 int rfat_fs_init(const struct fs_area *fap);
 
-int rfat_open(const struct fs_area *fap, const char *pathname, int flags);
+/**
+ * @brief Open a file. If a file is not exist, return failure.
+ *
+ * @param fap[in] Pointer to a fs_area variable.
+ * @param name[in] Pointer to a file name.
+ * @param entry[out] Pointer to a file entry.
+ * @return [int] return 0 if success, otherwise return negative error code.
+ */
+int rfat_open(const struct fs_area *fap, const char *name,
+              rfat_file_entry_t *entry);
 
-int rfat_create(const struct fs_area *fap, const char *pathname, uint8_t mode);
+int rfat_create(const struct fs_area *fap, const char *name, uint8_t mode,
+                rfat_file_entry_t *entry);
 
-int rfat_close(const struct fs_area *fap, int fd);
+/**
+ * @brief CLose a file. If the pointer is NULL, do nothing.
+ *
+ * @param entry[in] Pointer to a file entry.
+ * @return [int] return 0 if success, otherwise return negative error code.
+ */
+int rfat_close(const rfat_file_entry_t *entry);
 
 int rfat_read(const struct fs_area *fap, int fd, void *buf, size_t count);
 

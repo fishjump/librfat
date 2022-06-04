@@ -3,9 +3,6 @@
 
 #include "helper.hpp"
 
-#define RFAT_BIN_FILE_PATH "rfat_fs_test.bin"
-#define RFAT_BIN_FILE_SZ (1024)
-
 /**
  * @brief This test suite is used to test rfat file system. In Setup(), we'll
  * create a new binary file with size=RFA_BIN_FILE_SZ, and it will be deleted in
@@ -74,7 +71,7 @@ TEST_F(rfat_fs, open_and_close) {
  * RFAT_SUCCESS.
  */
 TEST_F(rfat_fs, init_and_validate) {
-  int ret, i;
+  int ret;
   struct fs_area *fap;
 
   ret = rfat_fs_open(RFAT_BIN_FILE_PATH, &fap);
@@ -99,5 +96,3 @@ TEST_F(rfat_fs, init_and_validate) {
   ASSERT_EQ(ret, RFAT_SUCCESS)
       << "rfat_fs_validate failed, error code: " << ret;
 }
-
-// TEST_F(rfat_fs, create_and_read) {}

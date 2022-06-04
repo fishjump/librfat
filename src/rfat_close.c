@@ -1,3 +1,10 @@
 #include <rfat/rfat.h>
 
-int rfat_close(const struct fs_area *fap, int fd) { return 0; }
+// Do nothing now.
+int rfat_close(const rfat_file_entry_t *entry) {
+  int ret = 0;
+
+  ret = RFAT_SUCCESS;
+
+  return ret;
+}
