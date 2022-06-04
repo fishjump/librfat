@@ -72,3 +72,12 @@ TEST_F(rfat_file, create_and_read) {
   ret = rfat_close(&entry);
   ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_close failed, error code: " << ret;
 }
+
+TEST_F(rfat_file, open_non_exist_file) {
+  int ret;
+  rfat_file_entry_t entry;
+
+  ret = rfat_open(fap, "itdoesnotexist.txt", &entry);
+  ASSERT_EQ(ret, RFAT_FILE_DOES_NOT_EXIST_FAILURE)
+      << "rfat_open failed, error code: " << ret;
+}
