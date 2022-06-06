@@ -3,7 +3,6 @@
 
 #include <rfat/rfat.h>
 
-#include "backend/backend.h"
 #include "helper.h"
 
 /**

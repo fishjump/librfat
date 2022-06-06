@@ -12,6 +12,9 @@
 #define RFAT_FS_MAGIC_NUMBER_FAILURE (-6)
 #define RFAT_STORAGE_NOT_FOUND_FAILURE (-7)
 #define RFAT_FILE_DOES_NOT_EXIST_FAILURE (-8)
+#define RFAT_FILE_UNEXPECTED_BLOCK_UNUSED_FAILURE (-9)
+#define RFAT_FILE_UNEXPECTED_BLOCK_EOF_FAILURE (-10)
+#define RFAT_FILE_UNEXPECTED_BLOCK_RESERVED_FAILURE (-11)
 
 #ifdef __cplusplus
 extern "C" {
@@ -59,22 +62,31 @@ int rfat_fs_init(const struct fs_area *fap);
  *
  * @param fap[in] Pointer to a fs_area variable.
  * @param name[in] Pointer to a file name.
- * @param entry[out] Pointer to a file entry.
+ * @param fd[out] Pointer to a file id.
  * @return [int] return 0 if success, otherwise return negative error code.
  */
-int rfat_open(const struct fs_area *fap, const char *name,
-              rfat_file_entry_t *entry);
+int rfat_open(const struct fs_area *fap, const char *name, int *fd);
 
+/**
+ * @brief Create a file.
+ *
+ * @param fap[in] Pointer to a fs_area variable.
+ * @param name[in] Pointer to a file name.
+ * @param mode[in] File mode.
+ * @param fd[out] Pointer to a file id.
+ * @return [int] return 0 if success, otherwise return negative error code.
+ */
 int rfat_create(const struct fs_area *fap, const char *name, uint8_t mode,
-                rfat_file_entry_t *entry);
+                int *fd);
 
 /**
  * @brief CLose a file. If the pointer is NULL, do nothing.
  *
- * @param entry[in] Pointer to a file entry.
+ * @param fap[in] Pointer to a fs_area.
+ * @param fd[in] File id.
  * @return [int] return 0 if success, otherwise return negative error code.
  */
-int rfat_close(const rfat_file_entry_t *entry);
+int rfat_close(const struct fs_area *fap, int fd);
 
 int rfat_read(const struct fs_area *fap, int fd, void *buf, size_t count);
 

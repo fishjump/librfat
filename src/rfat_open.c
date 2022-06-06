@@ -2,11 +2,9 @@
 
 #include <rfat/rfat.h>
 
-#include "backend/backend.h"
 #include "helper.h"
 
-int rfat_open(const struct fs_area *fap, const char *name,
-              rfat_file_entry_t *entry) {
+int rfat_open(const struct fs_area *fap, const char *name, int *fd) {
   int ret, i, fat_idx, fet_idx;
   size_t sz;
   rfat_metadata_block_t metadata;
@@ -31,7 +29,7 @@ int rfat_open(const struct fs_area *fap, const char *name,
       goto end;
     }
 
-    memcpy(entry, &metadata.fet_list[fet_idx], sizeof(rfat_file_entry_t));
+    *fd = fet_idx;
   });
 
   ret = RFAT_SUCCESS;

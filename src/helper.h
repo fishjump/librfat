@@ -3,6 +3,8 @@
 
 #include <rfat/rfat.h>
 
+#include "backend/backend.h"
+
 #define METADATA_BLOCK(SZ) ((SZ) - sizeof(rfat_metadata_block_t))
 #define DATA_BLOCK(SZ, INDEX)                                                  \
   ((SZ)-METADATA_BLOCK(SZ) - ((RFAT_BLOCK_SZ) * (INDEX)))

@@ -57,27 +57,52 @@ protected:
 };
 
 TEST_F(rfat_file, create_and_read) {
-  int ret;
-  rfat_file_entry_t entry;
+  int ret, fd;
 
-  ret = rfat_create(fap, "helloworld.txt", 0, &entry);
+  ret = rfat_create(fap, "helloworld.txt", 0, &fd);
   ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_create failed, error code: " << ret;
 
-  ret = rfat_close(&entry);
+  ret = rfat_close(fap, fd);
   ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_close failed, error code: " << ret;
 
-  ret = rfat_open(fap, "helloworld.txt", &entry);
+  ret = rfat_open(fap, "helloworld.txt", &fd);
   ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_create failed, error code: " << ret;
 
-  ret = rfat_close(&entry);
+  ret = rfat_close(fap, fd);
   ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_close failed, error code: " << ret;
 }
 
 TEST_F(rfat_file, open_non_exist_file) {
-  int ret;
-  rfat_file_entry_t entry;
+  int ret, fd;
 
-  ret = rfat_open(fap, "itdoesnotexist.txt", &entry);
+  ret = rfat_open(fap, "itdoesnotexist.txt", &fd);
   ASSERT_EQ(ret, RFAT_FILE_DOES_NOT_EXIST_FAILURE)
       << "rfat_open failed, error code: " << ret;
+}
+
+TEST_F(rfat_file, write_and_read) {
+  int ret, fd;
+  const char buf[13] = "hello world!";
+  char buf2[13] = "";
+
+  ret = rfat_create(fap, "helloworld.txt", 0, &fd);
+  ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_create failed, error code: " << ret;
+
+  ret = rfat_write(fap, fd, buf, sizeof(buf));
+  ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_write failed, error code: " << ret;
+
+  ret = rfat_close(fap, fd);
+  ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_close failed, error code: " << ret;
+
+  ret = rfat_open(fap, "helloworld.txt", &fd);
+  ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_open failed, error code: " << ret;
+
+  ret = rfat_read(fap, fd, buf2, sizeof(buf2));
+  ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_read failed, error code: " << ret;
+  ASSERT_EQ(strcmp(buf, buf2), 0)
+      << "rfat_read result inconsistency, expected: " << buf
+      << ", actual: " << buf2;
+
+  ret = rfat_close(fap, fd);
+  ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_close failed, error code: " << ret;
 }

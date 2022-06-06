@@ -1,6 +1,5 @@
 #include <rfat/rfat.h>
 
-#include "backend/backend.h"
 #include "helper.h"
 
 int rfat_fs_validate(const struct fs_area *fap) {
