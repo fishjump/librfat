@@ -22,6 +22,12 @@
         "valarray": "c",
         "vector": "c",
         "iterator": "c",
-        "random": "c"
+        "random": "c",
+        "bitset": "c",
+        "queue": "c",
+        "stack": "c",
+        "utility": "c",
+        "*.ipp": "c",
+        "ranges": "c"
     }
 }

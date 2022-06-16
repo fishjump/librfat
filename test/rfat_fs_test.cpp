@@ -96,3 +96,39 @@ TEST_F(rfat_fs, init_and_validate) {
   ASSERT_EQ(ret, RFAT_SUCCESS)
       << "rfat_fs_validate failed, error code: " << ret;
 }
+
+/**
+ * @brief This case is used to test rfat_fs_zip().
+ * 1. call rfat_fs_open() to open the filesystem and it should return
+ * RFAT_SUCCESS.
+ * 2. call rfat_fs_init() to initialize the filesystem and it should return
+ * RFAT_SUCCESS.
+ * 3. call rfat_fs_validate() to validate the filesystem and it should return
+ * RFAT_SUCCESS.
+ * 4. call rfat_fs_zip() to zip the filesystem and it should return RFAT_SUCCESS
+ */
+TEST_F(rfat_fs, zip) {
+  int ret;
+  struct fs_area *fap;
+
+  ret = rfat_fs_open(RFAT_BIN_FILE_PATH, &fap);
+  ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_fs_open failed, error code: " << ret;
+
+  defer({
+    ret = rfat_fs_close(fap);
+    ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_fs_close failed, error code: " << ret;
+  });
+
+  ret = rfat_fs_init(fap);
+
+  ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_fs_init failed, error code: " << ret;
+
+  ret = rfat_fs_validate(fap);
+
+  ASSERT_EQ(ret, RFAT_SUCCESS)
+      << "rfat_fs_validate failed, error code: " << ret;
+
+  // ret = rfat_fs_zip(fap);
+
+  // ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_fs_zip failed, error code: " << ret;
+}

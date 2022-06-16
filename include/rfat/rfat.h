@@ -58,6 +58,14 @@ int rfat_fs_validate(const struct fs_area *fap);
 int rfat_fs_init(const struct fs_area *fap);
 
 /**
+ * @brief Sort fragments of a file system.
+ * 
+ * @param fap[in] Pointer to a fs_area variable.
+ * @return [int] return 0 if success, otherwise return negative error code.
+ */
+int rfat_fs_zip(const struct fs_area *fap);
+
+/**
  * @brief Open a file. If a file is not exist, return failure.
  *
  * @param fap[in] Pointer to a fs_area variable.

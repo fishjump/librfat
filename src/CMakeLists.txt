@@ -29,6 +29,7 @@ target_sources(${CMAKE_PROJECT_NAME}
         rfat_fs_init.c
         rfat_fs_open.c
         rfat_fs_validate.c
+        rfat_fs_zip.c
         rfat_open.c
         rfat_read.c
         rfat_write.c
