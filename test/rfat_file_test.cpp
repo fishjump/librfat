@@ -56,7 +56,14 @@ protected:
   int test;
 };
 
-TEST_F(rfat_file, create_and_read) {
+/**
+ * @brief This case is to test rfat_create() and rfat_open().
+ * 1. call rfat_create() to create a new file and it should return RFAT_SUCCESS.
+ * 2. call rfat_close() to close the file and it should return RFAT_SUCCESS.
+ * 3. call rfat_open() to open the file and it should return RFAT_SUCCESS.
+ * 4. call rfat_close() to close the file and it should return RFAT_SUCCESS.
+ */
+TEST_F(rfat_file, create_and_open) {
   int ret, fd;
 
   ret = rfat_create(fap, "helloworld.txt", 0, &fd);
@@ -72,6 +79,11 @@ TEST_F(rfat_file, create_and_read) {
   ASSERT_EQ(ret, RFAT_SUCCESS) << "rfat_close failed, error code: " << ret;
 }
 
+/**
+ * @brief This case is to test rfat_open() when we try to open a non-exist file.
+ * 1. call rfat_open() to open a non-exist file and it should return
+ * RFAT_FILE_DOES_NOT_EXIST_FAILURE
+ */
 TEST_F(rfat_file, open_non_exist_file) {
   int ret, fd;
 
@@ -80,6 +92,19 @@ TEST_F(rfat_file, open_non_exist_file) {
       << "rfat_open failed, error code: " << ret;
 }
 
+/**
+ * @brief This case is to test rfat_write() and rfat_read().
+ * 1. call rfat_create() to create a new file and it should return RFAT_SUCCESS.
+ * 2. call rfat_write() to write some data to the file and it should return
+ * RFAT_SUCCESS.
+ * 3. call rfat_clost() to close the file and it should return RFAT_SUCCESS.
+ * 4. call rfat_open() to open the file and it should return RFAT_SUCCESS.
+ * 5. call rfat_read() to read the data from the file and it should return
+ * RFAT_SUCCESS.
+ * 6. compare the data read from the file with the data written to the file,
+ * they should be the same, i.e., strcmp returns 0.
+ * 7. call rfat_close() to close the file and it should return RFAT_SUCCESS.
+ */
 TEST_F(rfat_file, write_and_read) {
   int ret, fd;
   const char buf[13] = "hello world!";
